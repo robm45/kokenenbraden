@@ -1,0 +1,98 @@
+body {
+  font-family: Helvetica, Arial, sans-serif; /* schreefloos */
+  font-size: 10pt; /* iets kleiner */
+  margin: 20px;
+  color: #333;
+  line-height: 1.4;
+}
+
+.titel-card {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.titel-card .card-header {
+  font-size: 14pt;
+  font-weight: bold;
+  background: #17a2b8;
+  color: white;
+  padding: 8px;
+  border-radius: 6px 6px 0 0;
+}
+
+
+.recept-meta {
+  background: #e3f2fd;
+  border: 1px solid #90caf9;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 9pt; /* ook iets kleiner */
+}
+
+.recept-meta strong {
+  margin-right: 4px;
+}
+
+.foto {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.foto img {
+  max-height: 200px;
+  border-radius: 6px;
+}
+
+.recept-body {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.recept-card {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px;
+  flex: 1;
+  font-size: 9.5pt; /* ook kleiner */
+}
+
+.ingredienten-card {
+  flex: 0 0 30%;
+}
+
+.ingredienten-lijst {
+  padding-left: 18px; /* ruimte links */
+  margin: 0;
+}
+
+.ingredienten-lijst li {
+  margin-bottom: 4px;
+  list-style-type: disc; /* standaard bolletje */
+  font-size: 9.5pt;
+}
+
+
+.bereiding-card {
+  flex: 1;
+}
+
+.card-header {
+  font-weight: bold;
+  background: #17a2b8;
+  color: white;
+  padding: 4px 6px;
+  border-radius: 6px 6px 0 0;
+  margin: -8px -8px 8px -8px;
+  font-size: 10pt;
+}
+
+p {
+  margin: 0 0 4px 0;
+}

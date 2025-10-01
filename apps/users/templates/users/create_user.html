@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="col-md-6 offset-md-3">
+  <h2>Nieuwe gebruiker aanmaken (beheer)</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <h4>Groepen</h4>
+    {% for group in groups %}
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="groups" value="{{ group.id }}" id="group{{ group.id }}">
+        <label class="form-check-label" for="group{{ group.id }}">
+          {{ group.name }}
+        </label>
+      </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-success mt-3">Opslaan</button>
+  </form>
+</div>
+{% endblock %}

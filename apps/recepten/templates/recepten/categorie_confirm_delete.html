@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Bevestig verwijderen</h2>
+  <p>Weet je zeker dat je de categorie "<strong>{{ object.naam }}</strong>" wilt verwijderen?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Ja, verwijderen</button>
+    <a href="{% url 'recepten:categorie_lijst' %}" class="btn btn-secondary">Annuleren</a>
+  </form>
+
+  {% if messages %}
+    <div class="mt-3">
+      {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

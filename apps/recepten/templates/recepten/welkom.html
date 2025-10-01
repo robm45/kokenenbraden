@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Welkom bij recepten{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="welkom-image text-center">
+  <h1>Welkom bij Recepten</h1>
+  <img src="{% static 'images/welkom.jpeg' %}" alt="Welkom" class="img-fluid rounded shadow">
+</div>
+
+<div class="card welcome-card mt-4 mx-auto" style="max-width: 600px;">
+  <div class="card-body">
+    <h4 class="card-title mb-3">De bibliotheek bevat de volgende gegevens:</h4>
+    <ul class="list-unstyled mb-0">
+      <li><strong>Recepten:</strong> {{ num_recepten }}</li>
+      <li><strong>Categoriën:</strong> {{ num_categories }}</li>
+      <li><strong>Hoofd ingredienten:</strong> {{ num_hoofdingredienten }}</li>
+      <li><strong>Gerecht type:</strong> {{ num_gerechttype }}</li>
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

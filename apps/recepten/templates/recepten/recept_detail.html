@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Recept detail{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <!-- Titel -->
+  <h2 class="mb-3 recept-titel">{{ recept.naam }}</h2>
+
+  <!-- Foto -->
+  {% if recept.foto %}
+    <div class="mb-3 text-center">
+      <img src="{{ recept.foto.url }}" alt="{{ recept.naam }}" class="img-fluid rounded shadow" style="max-height: 300px; object-fit: cover;">
+    </div>
+  {% else %}
+    <div class="mb-3 text-center">
+      <img src="{% static 'images/placeholder.png' %}" alt="Geen afbeelding beschikbaar" class="img-fluid rounded shadow" style="max-height: 300px; object-fit: cover;">
+    </div>
+  {% endif %}
+
+  <!-- Blauwe balk met kerngegevens -->
+  <div class="recept-meta">
+    <strong><i class="bi bi-clock"></i>{{ recept.bereidingstijd }} minuten</strong>
+    <strong><i class="bi bi-people"></i>{{ recept.aantal_personen }} personen</strong>
+    <strong class="meta-waarde">Categorie:</strong>{{ recept.categorie }}
+    <strong class="meta-waarde">Gerecht type:</strong>{{ recept.gerecht_type }}
+    <strong class="meta-waarde">Per portie:</strong>{{ recept.per_portie }}
+  </div>
+
+  <!-- Twee kolommen: Ingrediënten (20%) en Bereiding (80%) -->
+  <div class="recept-body">
+    <!-- Ingrediënten -->
+    <div class="card recept-card ingredienten-card">
+      <div class="card-header">Ingrediënten</div>
+      <div class="card-body">
+        {% if recept.ingredienten %}
+          <ul class="ingredienten-lijst">
+              {% for regel in recept.ingredienten.splitlines %}
+                {% if regel %}
+                  <li>{{ regel }}</li>
+                {% endif %}
+              {% endfor %}
+          </ul>
+        {% else %}
+          <p>-</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Bereiding -->
+    <div class="card recept-card bereiding-card">
+      <div class="card-header">Bereiding</div>
+      <div class="card-body">
+        {% if recept.bereiding %}
+          {{ recept.bereiding|linebreaks }}
+        {% else %}
+          -
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+
+<!-- Knoppen: vervang je huidige div door deze structuur -->
+   
+   
+  <div class="mt-4 action-buttons">
+    <a href="{% url 'recepten:recept_lijst' %}" class="btn btn-secondary">Terug naar lijst</a>
+
+    <a href="{% url 'recepten:recept-export-pdf' pk=recept.id %}" class="btn btn-secondary">Download als PDF</a>
+  
+
+   {% if user.is_authenticated %}
+     <a href="{% url 'recepten:recept_bewerk' recept.id %}" class="btn btn-warning">
+      <i class="bi bi-pencil"></i> Bewerk
+     </a>
+
+     <form method="post" action="{% url 'recepten:recept_delete' recept.id %}">
+       {% csrf_token %}
+       <button type="submit" class="btn btn-danger" onclick="return confirm('Weet je zeker dat je dit recept wilt verwijderen?');">
+         <i class="bi bi-trash"></i> Verwijderen
+       </button>
+     </form>
+   {% endif %}
+  </div>
+</div>
+{% endblock %}

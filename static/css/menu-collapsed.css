@@ -1,0 +1,60 @@
+/* ============================
+   Menu inklapbaar
+   ============================ */
+.left-col {
+  flex: 0 0 220px;
+  max-width: 220px;
+  transition: all 0.3s ease;
+  border-right: 1px solid #dee2e6;
+}
+
+.left-col.collapsed {
+  flex: 0 0 60px;
+  max-width: 60px;
+  overflow: hidden;
+}
+
+.right-col.expanded {
+  flex: 1 1 calc(100% - 60px);
+  max-width: calc(100% - 60px);
+}
+
+/* Navigatie */
+.left-col ul.nav {
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.left-col ul.nav li a {
+  display: flex;
+  align-items: center;
+  padding: 0.65rem 0.75rem;
+  color: #212529;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.left-col ul.nav li a:hover {
+  background-color: #e9ecef;
+  color: #000;
+}
+
+/* Icon + tekst */
+.left-col ul.nav li a i {
+  font-size: 1.2rem;
+  min-width: 24px;
+  text-align: center;
+}
+.left-col ul.nav li a .label-text {
+  margin-left: 0.75rem;
+  white-space: nowrap;
+}
+
+/* Collapsed state */
+.left-col.collapsed ul.nav li a {
+  justify-content: center;
+  padding: 0.65rem 0;
+}
+.left-col.collapsed ul.nav li a .label-text { display: none; }
+.left-col.collapsed ul.nav li a i { margin: 0; }

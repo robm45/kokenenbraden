@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Recept invoer{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Recept invoeren / bewerken</h2>
+
+  <div class="card shadow-sm rounded-3">
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <!-- Naam -->
+        <div class="mb-3">
+          <label for="{{ form.naam.id_for_label }}" class="form-label fw-bold">{{ form.naam.label }}</label>
+          {{ form.naam }}
+        </div>
+
+        <!-- Korte velden naast elkaar -->
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <label for="{{ form.bereidingstijd.id_for_label }}" class="form-label fw-bold">{{ form.bereidingstijd.label }}</label>
+            {{ form.bereidingstijd }}
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="{{ form.aantal_personen.id_for_label }}" class="form-label fw-bold">{{ form.aantal_personen.label }}</label>
+            {{ form.aantal_personen }}
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="{{ form.categorie.id_for_label }}" class="form-label fw-bold">{{ form.categorie.label }}</label>
+            {{ form.categorie }}
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="{{ form.gerecht_type.id_for_label }}" class="form-label fw-bold">{{ form.gerecht_type.label }}</label>
+            {{ form.gerecht_type }}
+          </div>
+        </div>
+
+        <!-- Lange velden -->
+        <div class="mb-3">
+          <label for="{{ form.samenvatting.id_for_label }}" class="form-label fw-bold">{{ form.samenvatting.label }}</label>
+          {{ form.samenvatting }}
+        </div>
+
+        <div class="mb-3">
+          <label for="{{ form.ingredienten.id_for_label }}" class="form-label fw-bold">{{ form.ingredienten.label }}</label>
+          {{ form.ingredienten }}
+        </div>
+
+        <div class="mb-3">
+          <label for="{{ form.bereiding.id_for_label }}" class="form-label fw-bold">{{ form.bereiding.label }}</label>
+          {{ form.bereiding }}
+        </div>
+
+        <div class="mb-3">
+          <label for="{{ form.per_portie.id_for_label }}" class="form-label fw-bold">{{ form.per_portie.label }}</label>
+          {{ form.per_portie }}
+        </div>
+
+        <div class="mb-3">
+          <label for="{{ form.hoofd_ingredienten.id_for_label }}" class="form-label fw-bold">{{ form.hoofd_ingredienten.label }}</label>
+          {{ form.hoofd_ingredienten }}
+        </div>
+
+        <!-- Foto onderaan -->
+        <div class="mb-3">
+          <label for="{{ form.foto.id_for_label }}" class="form-label fw-bold">{{ form.foto.label }}</label>
+          {{ form.foto }}
+        </div>
+
+        <div class="action-buttons-invoer mt-4">
+          <a href="{% url 'recepten:recept_lijst' %}" class="btn btn-secondary">
+             <i class="bi bi-arrow-left"></i> Annuleren
+          </a>
+          <button type="submit" class="btn btn-success">
+              <i class="bi bi-check-lg"></i> Opslaan
+          </button>
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

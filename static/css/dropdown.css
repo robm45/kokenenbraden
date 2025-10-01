@@ -1,0 +1,18 @@
+/* Dropdown menu's */
+.dropdown-menu .dropdown-item {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+  margin: 0.25rem 0;
+}
+.dropdown-menu .dropdown-item:hover {
+  background-color: #e9f7ef;
+  color: #198754;
+}
+.dropdown-submenu { position: relative; }
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-left: 0.1rem;
+  margin-right: 0.1rem;
+}

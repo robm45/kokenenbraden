@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Bevestig verwijderen</h2>
+  <p>Weet je zeker dat je "{{ object.naam }}" wilt verwijderen?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Ja, verwijderen</button>
+    <a href="{% url 'recepten:recept_lijst' %}" class="btn btn-secondary">Annuleren</a>
+  </form>
+</div>
+{% endblock %}

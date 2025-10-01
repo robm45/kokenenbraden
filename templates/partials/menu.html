@@ -1,0 +1,87 @@
+{% load user_tags %}
+<nav class="flex-grow-1 mt-2">
+  <ul class="nav flex-column">
+
+    <!-- Home -->
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'recepten:welkom' %}" title="Home">
+        <i class="bi bi-house-door-fill"></i>
+        <span class="label-text">Home</span>
+      </a>
+    </li>
+
+    <!-- Recepten lijst -->
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'recepten:recept_lijst' %}" title="Recepten">
+        <i class="bi bi-journal-text"></i>
+        <span class="label-text">Recepten</span>
+      </a>
+    </li>
+
+    <!-- Recepten zoeken -->
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'recepten:recept_zoek' %}" title="Zoeken">
+        <i class="bi bi-search"></i>
+        <span class="label-text">Zoeken</span>
+      </a>
+    </li>
+
+    {% if user.is_authenticated %}
+      <!-- Beheer dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="beheerDropdown" role="button"
+           data-bs-toggle="dropdown" aria-expanded="false" title="Beheer">
+          <i class="bi bi-gear-fill"></i>
+          <span class="label-text">Beheer</span>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="beheerDropdown">
+          <li>
+            <a class="dropdown-item" href="{% url 'recepten:recept_invoer' %}">
+              <i class="bi bi-pencil-square me-2"></i> Invoer recept
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'recepten:categorie_invoer' %}">
+              <i class="bi bi-tag-fill me-2"></i> Categorie invoer
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'recepten:categorie_lijst' %}">
+              <i class="bi bi-card-list me-2"></i> Categorieën lijst
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'recepten:gerecht_type_invoer' %}">
+              <i class="bi bi-file-earmark-plus me-2"></i> GerechtType invoer
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'recepten:gerecht_type_lijst' %}">
+              <i class="bi bi-list-ul me-2"></i> GerechtTypes lijst
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'recepten:ingredient_invoer' %}">
+              <i class="bi bi-plus-circle me-2"></i> Ingrediënt invoer
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'recepten:ingredient_lijst' %}">
+              <i class="bi bi-list-check me-2"></i> Ingrediënten lijst
+            </a>
+          </li>
+
+          {% if user|has_group:"beheer" %}
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'users:create_user' %}">
+                <i class="bi bi-person-plus me-2"></i> Nieuwe gebruiker
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </li>
+    {% endif %}
+
+  </ul>
+</nav>

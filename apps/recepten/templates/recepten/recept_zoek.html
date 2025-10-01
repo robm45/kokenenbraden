@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+{% load form_tags %}
+{% block title %}Recepten zoeken{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+
+  <h2>Recepten zoeken</h2>
+
+  <div class="row">
+    <!-- Linkerkolom: zoekformulier -->
+    <div class="col-md-3">
+      <div class="card mb-3">
+        <div class="card-body">
+          <form method="get" action="{% url 'recepten:recept_zoek' %}">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label for="id_q" class="form-label">Algemene zoekterm</label>
+              <input type="text" name="q" id="id_q" value="{{ form.q.value }}" class="form-control" placeholder="Ingredienten of bereiding">
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.categorie.id_for_label }}" class="form-label">
+                {{ form.categorie.label }}
+              </label>
+              {{ form.categorie|add_class:"form-select" }}
+              {% if form.categorie.errors %}
+                <div class="text-danger small">
+                  {{ form.categorie.errors|join:", " }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.gerecht_type.id_for_label }}" class="form-label">
+                {{ form.gerecht_type.label }}
+              </label>
+              {{ form.gerecht_type|add_class:"form-select" }}
+                {% if form.gerecht_type.errors %}
+                <div class="text-danger small">
+                  {{ form.gerecht_type.errors|join:", " }}
+                </div>
+              {% endif %}
+            </div>
+
+
+            <button type="submit" class="btn btn-primary w-100">Zoeken</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rechterkolom: zoekresultaten -->
+    <div class="col-md-9">
+      <div class="right-col main-content">
+
+        {% if resultaten %}
+          <h4>Gevonden recepten</h4>
+          <ul class="list-group mt-3 recept-lijst">
+            {% for recept in resultaten %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{% url 'recepten:recept_detail' recept.id %}" class="recept-link">{{ recept.naam }}</a>
+                <span class="badge bg-secondary">{{ recept.bereidingstijd }} min</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          {% if form.data %}
+            <div class="alert alert-warning mt-3">
+              Geen resultaten gevonden.
+            </div>
+          {% endif %}
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

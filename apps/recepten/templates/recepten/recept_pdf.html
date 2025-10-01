@@ -1,0 +1,67 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ recept.naam }}</title>
+</head>
+<body>
+  <!-- Titel -->
+  <div class="title-card">
+      <div class="card-header">{{ recept.naam }}</div>
+  </div>
+
+  <!-- Foto -->
+  <div class="foto">
+    {% if foto_pad %}
+      <img src="{{ foto_pad }}" alt="Foto van {{ recept.naam }}">
+    {% else %}
+      <p><em>Geen afbeelding beschikbaar</em></p>
+    {% endif %}
+  </div>
+
+  <!-- Meta info -->
+  <div class="recept-meta">
+    <div><strong>⏱ Bereidingstijd:</strong> {{ recept.bereidingstijd }} min</div>
+    <div><strong>👥 Personen:</strong> {{ recept.aantal_personen }}</div>
+    <div><strong>Categorie:</strong> {{ recept.categorie }}</div>
+    <div><strong>Gerecht type:</strong> {{ recept.gerecht_type }}</div>
+    <div><strong>Per portie:</strong> {{ recept.per_portie }}</div>
+  </div>
+
+  <!-- Body -->
+  <div class="recept-body">
+    <!-- Ingrediënten -->
+    <div class="recept-card ingredienten-card">
+      <div class="card-header">Ingrediënten</div>
+      <div class="card-body">
+        {% if recept.ingredienten %}
+          <ul class="ingredienten-lijst">
+              {% for regel in recept.ingredienten.splitlines %}
+                {% if regel %}
+                  <li>{{ regel }}</li>
+                {% endif %}
+              {% endfor %}
+          </ul>
+        {% else %}
+          <p>-</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Bereiding -->
+    <div class="recept-card bereiding-card">
+      <div class="card-header">Bereiding</div>
+      <div class="card-body">
+        {% if recept.bereiding %}
+          {{ recept.bereiding|linebreaks }}
+        {% else %}
+          <p>-</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

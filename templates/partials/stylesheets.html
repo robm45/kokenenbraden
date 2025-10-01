@@ -1,0 +1,22 @@
+{% load static %}
+
+<head>
+  <!-- 1. Basisvariabelen en algemene stijlen -->
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+  <!-- 2. Layout (2 kolommen, flexbox) -->
+  <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+
+  <!-- 3. Navigatie / menu gerelateerd -->
+  <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user-menu.css' %}">
+  <link rel="stylesheet" href="{% static 'css/menu-collapsed.css' %}">
+
+  <!-- 4. Pagina-specifieke styles -->
+  <link rel="stylesheet" href="{% static 'css/welkom.css' %}">
+  <link rel="stylesheet" href="{% static 'css/recept.css' %}">
+
+  <!-- 5. Responsive overrides (altijd als laatste!) -->
+  <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+</head>
+

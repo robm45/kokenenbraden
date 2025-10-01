@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Categorieën</h2>
+  <a href="{% url 'recepten:categorie_invoer' %}" class="btn btn-success mb-3">Nieuwe categorie</a>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Naam</th>
+        <th>Acties</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for categorie in categories %}
+        <tr>
+          <td>{{ categorie.naam }}</td>
+          <td>
+            <a href="{% url 'recepten:categorie_delete' categorie.id %}" 
+               class="btn btn-sm btn-danger"
+               onclick="return confirm('Weet je zeker dat je deze categorie wilt verwijderen?');">
+              Verwijderen
+            </a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="2">Geen categorieën gevonden.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
