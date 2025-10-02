@@ -5,10 +5,12 @@ cssselect2==0.8.0
 Django==4.2.24
 django-bootstrap5==25.2
 fonttools==4.60.1
+mysqlclient==2.2.7
 pillow==11.3.0
 pycparser==2.23
 pydyf==0.11.0
 pyphen==0.17.2
+python-dotenv==1.1.1
 sqlparse==0.5.3
 tinycss2==1.4.0
 tinyhtml5==2.0.0
