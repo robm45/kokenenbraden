@@ -167,3 +167,12 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Logging inlezen
+import os
+
+if DEBUG:
+    from .logging_dev import LOGGING
+else:
+    from .logging_prod import LOGGING
+
