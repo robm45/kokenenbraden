@@ -71,7 +71,8 @@
 .ingredienten-lijst li {
   margin-bottom: 4px;
   list-style-type: disc; /* standaard bolletje */
-  font-size: 9.5pt;
+  font-size: 1.0rem;
+  font-weight: 400;
 }
 
 /* Recept lijst */
