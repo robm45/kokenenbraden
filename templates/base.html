@@ -13,14 +13,21 @@
     <!-- Eigen stylesheets -->
     {% include "partials/stylesheets.html" %}
     <link href="{% static 'css/menu-collapsed.css' %}" rel="stylesheet">
-    {% load static %}
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="manifest" href={% static "/manifest.json" %}>
+
   </head>
   <body>
     <div class="container-fluid p-0">
 
       <!-- Titelbalk -->
       <header class="title-bar d-flex justify-content-between align-items-center px-3">
+         <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="{% static 'icons/favicon_192x192.png' %}" 
+            alt="KB Casa Logo" 
+             height="30" class="d-inline-block align-text-top me-2">
+         </a>
+
         <h2 class="m-0">Recepten</h2>
 
         <div class="d-flex align-items-center ms-auto">
