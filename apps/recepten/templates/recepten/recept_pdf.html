@@ -5,8 +5,14 @@
 <head>
   <meta charset="UTF-8">
   <title>{{ recept.naam }}</title>
+
+  {% include "partials/stylesheets.html" %}
+  {% block pdf_styles %}
+     <link rel="stylesheet" href="{% static 'css/pdf.css' %}">
+  {% endblock %}
+
 </head>
-<body>
+<body class="pdf-versie">
   <!-- Titel -->
   <div class="title-card">
       <div class="card-header">{{ recept.naam }}</div>

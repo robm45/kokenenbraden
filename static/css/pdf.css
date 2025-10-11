@@ -1,4 +1,8 @@
-body {
+/* ============================
+   PDF-specifieke stylesheet
+   ============================ */
+
+body.pdf-versie {
   font-family: Helvetica, Arial, sans-serif; /* schreefloos */
   font-size: 10pt; /* iets kleiner */
   margin: 20px;
@@ -6,14 +10,15 @@ body {
   line-height: 1.4;
 }
 
-.titel-card {
+/* Titelkaart */
+body.pdf-versie .titel-card {
   border: 1px solid #ddd;
   border-radius: 6px;
   margin-bottom: 15px;
   text-align: center;
 }
 
-.titel-card .card-header {
+body.pdf-versie .titel-card .card-header {
   font-size: 14pt;
   font-weight: bold;
   background: #17a2b8;
@@ -22,8 +27,8 @@ body {
   border-radius: 6px 6px 0 0;
 }
 
-
-.recept-meta {
+/* Meta-informatie */
+body.pdf-versie .recept-meta {
   background: #e3f2fd;
   border: 1px solid #90caf9;
   border-radius: 8px;
@@ -32,58 +37,60 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  font-size: 9pt; /* ook iets kleiner */
+  font-size: 9pt;
 }
 
-.recept-meta strong {
+body.pdf-versie .recept-meta strong {
   margin-right: 4px;
 }
 
-.foto {
+/* Foto */
+body.pdf-versie .foto {
   text-align: center;
   margin-bottom: 15px;
 }
 
-.foto img {
+body.pdf-versie .foto img {
   max-height: 200px;
   border-radius: 6px;
 }
 
-.recept-body {
+/* Body-layout */
+body.pdf-versie .recept-body {
   display: flex;
   flex-direction: row;
   gap: 15px;
 }
 
-.recept-card {
+/* Kaarten */
+body.pdf-versie .recept-card {
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 8px;
   flex: 1;
-  font-size: 9.5pt; /* ook kleiner */
+  font-size: 0.7rem;
 }
 
-.ingredienten-card {
+body.pdf-versie .ingredienten-card {
   flex: 0 0 30%;
 }
 
-.ingredienten-lijst {
-  padding-left: 18px; /* ruimte links */
+body.pdf-versie .ingredienten-lijst {
+  padding-left: 18px;
   margin: 0;
 }
 
-.ingredienten-lijst li {
+body.pdf-versie .ingredienten-lijst li {
   margin-bottom: 4px;
-  list-style-type: disc; /* standaard bolletje */
-  font-size: 0.9rem;
+  list-style-type: disc;
+  font-size: 0.7rem;
 }
 
-
-.bereiding-card {
+body.pdf-versie .bereiding-card {
   flex: 1;
 }
 
-.card-header {
+body.pdf-versie .card-header {
   font-weight: bold;
   background: #17a2b8;
   color: white;
@@ -93,6 +100,8 @@ body {
   font-size: 10pt;
 }
 
-p {
+/* Paragraafstijl */
+body.pdf-versie p {
   margin: 0 0 4px 0;
 }
+
