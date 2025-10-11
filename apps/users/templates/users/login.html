@@ -4,6 +4,13 @@
 {% block content %}
 <div class="col-md-6 offset-md-3 mt-5">
   <h2 class="mb-4 text-center">Inloggen</h2>
+
+  {% if form.errors %}
+    <div class="alert alert-danger">
+      Ongeldige gebruikersnaam of wachtwoord. Probeer het opnieuw.
+    </div>
+  {% endif %}
+
   <form method="post" class="needs-validation">
     {% csrf_token %}
 
@@ -17,8 +24,14 @@
       {{ form.password|add_class:"form-control" }}
     </div>
 
-    <div class="d-grid">
-      <button type="submit" class="btn btn-primary">Login</button>
+    <div class="d-grid mb-3">
+      <button type="submit" class="btn btn-primary">Inloggen</button>
+    </div>
+
+    <div class="text-center">
+      <a href="{% url 'users:password_reset' %}" class="text-decoration-none">
+        Wachtwoord vergeten?
+      </a>
     </div>
   </form>
 </div>

@@ -2,44 +2,60 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+LOG_DIR = BASE_DIR / "logs"
+LOG_DIR.mkdir(exist_ok=True)
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
+    "version": 1,
+    "disable_existing_loggers": False,
 
-    'formatters': {
-        'verbose': {
-            'format': '[{asctime}] {levelname} {name} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
+    "formatters": {
+        "verbose": {
+            "format": "[{asctime}] {levelname} {name} {message}",
+            "style": "{",
         },
     },
 
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/django_dev.log'),
-            'formatter': 'verbose',
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": str(LOG_DIR / "django_dev.log"),
+            "formatter": "verbose",
         },
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
+        "mail_debug_file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": str(LOG_DIR / "mail_debug.log"),
+            "formatter": "verbose",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+            "include_html": True,
         },
     },
 
-    'root': {
-        'handlers': ['file', 'console'],
-        'level': 'DEBUG',
+    "root": {
+        "handlers": ["file", "mail_debug_file"],
+        "level": "INFO",
     },
 
-    'django': {
-        'handlers': ['file'],
-        'level': 'INFO',
-        'propagate': True,
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "django.request": {
+            "handlers": ["file", "mail_admins"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+        "django.security": {
+            "handlers": ["file"],  # geen mail_admins hier meer
+            "level": "ERROR",
+            "propagate": False,
+        },
     },
 }
-
