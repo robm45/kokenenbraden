@@ -20,13 +20,14 @@ class Recept(models.Model):
     categorie = models.ForeignKey(Categorie, on_delete=models.RESTRICT, null=True)
     gerecht_type = models.ForeignKey(GerechtType, on_delete=models.RESTRICT, null=True)
     per_portie = models.TextField(max_length=1000)
+    datum_toegevoegd = models.DateTimeField(auto_now_add=True)
     foto = models.ImageField(upload_to=recept_image_path, blank=True, null=True)
 
     def __str__(self):
         return self.naam
 
     def get_absolute_url(self):
-        return reverse('catalog:recept-detail', args=[str(self.id)])
+        return reverse('recept:recept_detail', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

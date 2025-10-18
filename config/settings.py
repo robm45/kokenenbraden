@@ -35,6 +35,7 @@ DEBUG = os.getenv('DEBUG', 'FALSE') == 'True'
 DJANGO_ENV = os.getenv('DJANGO_ENV','dev')
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 LOGGING_MODULE = os.getenv('LOGGING_MODULE', 'config.logging_dev')
+SITE_DOMAIN= os.getenv('SITE_DOMAIN')
 
 # ------------------
 # login/logout redirects
@@ -164,11 +165,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Amsterdam'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

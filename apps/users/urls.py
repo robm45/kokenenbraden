@@ -54,3 +54,8 @@ urlpatterns += [
         name="password_reset_complete",
     ),
 ]
+
+# Preferences 
+urlpatterns += [
+    path("preferences/", views.preferences, name="preferences"),
+]

@@ -9,9 +9,9 @@ De recepten betreffen uitsluitend **koken en braden**.
 
 ## 📂 Projectstatus
 - [ ] Python **virtual environment (venv)** moet worden ingericht  
-- [ ] `settings.py` moet nog worden opgezet  
 - [ ] Geen MySQL-database inbegrepen (standaard SQLite kan worden gebruikt)  
 - [ ] Geen Apache-configuratiebestand aanwezig  
+- [ ] Er staat nu een env.example file die gebruikt kan worden. De settings.py is hiervan volledig afhankelijk
 
 ---
 

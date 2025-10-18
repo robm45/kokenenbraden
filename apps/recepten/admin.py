@@ -8,6 +8,6 @@ admin.site.register(HoofdIngredienten)
 #admin.site.register(Recept)
 
 class ReceptAdmin(admin.ModelAdmin):
-    list_display = ('mapnummer','naam', 'categorie', 'bereidingstijd', 'aantal_personen', 'gerecht_type')
+    list_display = ('mapnummer','naam', 'categorie', 'bereidingstijd', 'aantal_personen', 'gerecht_type','datum_toegevoegd')
 
 admin.site.register(Recept, ReceptAdmin)
