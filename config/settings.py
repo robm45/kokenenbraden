@@ -19,10 +19,6 @@ import os, json
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
 if os.environ.get('MOD_WSGI') != 'true':
      load_dotenv('/etc/django/kokenenbraden.env')
 
