@@ -19,4 +19,4 @@ def welkom(request):
             'num_hoofdingredienten': num_hoofdingredienten,
             'num_gerechttype': num_gerechttype,
     }
-    return render(request, "recepten/welkom.html", context)
+    return render(request, "welkom.html", context)

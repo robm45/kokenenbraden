@@ -37,8 +37,8 @@ SITE_DOMAIN= os.getenv('SITE_DOMAIN')
 # login/logout redirects
 # ------------------
 LOGIN_URL = "users:login"
-LOGIN_REDIRECT_URL = "recepten:welkom"
-LOGOUT_REDIRECT_URL = "recepten:welkom"
+LOGIN_REDIRECT_URL = "welkom"
+LOGOUT_REDIRECT_URL = "welkom"
 
 # ------------------
 # Versioning

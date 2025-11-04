@@ -4,7 +4,7 @@ from . import views
 app_name = 'recepten'
 
 urlpatterns = [
-    path("", views.welkom, name="welkom"),
+#    path("", views.welkom, name="welkom"),
     path("lijst/", views.recept_lijst, name="recept_lijst"),
     # Recept beheer
     path("invoer/", views.recept_invoer, name="recept_invoer"),

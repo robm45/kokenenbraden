@@ -18,9 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
+from apps.recepten.views.welkom import welkom
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', welkom, name='welkom'),
     path('',include('apps.recepten.urls')),
     path('users/', include('apps.users.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
