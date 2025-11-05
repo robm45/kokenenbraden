@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib import messages
 from .decorators import beheer_required
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from .models import UserProfile
 
 @beheer_required
@@ -36,7 +37,11 @@ def preferences(request):
         else:
 
             messages.info(request, "Je bent uitgeschreven voor maandelijks receptenrapport.")
-        return redirect("recepten:welkom")
+        return redirect("welkom")
 
     return render(request, "users/preferences.html", {"profile": profile})
 
+
+def logout_view(request):
+    logout(request)
+    return redirect('welkom')
