@@ -69,6 +69,9 @@
     <a href="{% url 'recepten:recept_lijst' %}" class="btn btn-secondary">Terug naar lijst</a>
 
     <a href="{% url 'recepten:recept-export-pdf' pk=recept.id %}" class="btn btn-secondary">Download als PDF</a>
+    
+    <button id="wake-lock-button" class="btn btn-primary">🔵 Scherm aanhouden: UIT</button>
+
   
 
    {% if user.is_authenticated %}
@@ -85,4 +88,40 @@
    {% endif %}
   </div>
 </div>
+<!-- Script om het scherm aan te houden wanneer er een recept op het scherm staat -->
+
+<script>
+
+let wakeLock = null;
+const button = document.getElementById('wake-lock-button');
+
+async function toggleWakeLock() {
+  if (wakeLock) {
+    // Uitschakelen
+    await wakeLock.release();
+    wakeLock = null;
+    button.textContent = "🟢 Scherm aanhouden: UIT";
+  } else {
+    try {
+      wakeLock = await navigator.wakeLock.request("screen");
+      button.textContent = "🔵 Scherm aanhouden: AAN";
+
+      // Heractiveren als tab focus terugkrijgt
+      document.addEventListener("visibilitychange", async () => {
+        if (wakeLock !== null && document.visibilityState === "visible") {
+          wakeLock = await navigator.wakeLock.request("screen");
+        }
+      });
+    } catch (err) {
+      alert("Wake Lock niet ondersteund of geweigerd: " + err);
+    }
+  }
+}
+
+button.addEventListener('click', toggleWakeLock);
+</script>
+
 {% endblock %}
+
+
+
