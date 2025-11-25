@@ -63,4 +63,13 @@ class ReceptZoekForm(forms.Form):
         label="Hoofdingrediënten",
         widget=forms.SelectMultiple(attrs={"class": "form-select"})
     )
+    bereiding_filter = forms.ChoiceField(
+        required = False,
+        choices=[
+            ('', '--- Bereidingstijd ---'),
+            ('lt30', 'Minder dan 30 minuten'),
+            ('30or60', 'Tussen 30 en 60 minuten'),
+            ('gt60', 'Meer dan 60 minuten'),
+        ]
+    )
 

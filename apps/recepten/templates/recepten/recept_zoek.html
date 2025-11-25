@@ -45,6 +45,18 @@
               {% endif %}
             </div>
 
+            <div class="mb-3">
+              <label for="{{ form.bereiding_filter.id_for_label }}" class="form-label">
+                {{ form.bereiding_filter.label }}
+              </label>
+              {{ form.bereiding_filter|add_class:"form-select" }}
+              {% if form.bereiding_filter.errors %}
+                <div class="text-danger small">
+                  {{ form.bereiding_filter.errors|join:", " }}
+                </div>
+              {% endif %}
+            </div>
+
 
             <button type="submit" class="btn btn-primary w-100">Zoeken</button>
           </form>
