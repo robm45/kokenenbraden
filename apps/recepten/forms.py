@@ -68,7 +68,7 @@ class ReceptZoekForm(forms.Form):
         choices=[
             ('', '--- Bereidingstijd ---'),
             ('lt30', 'Minder dan 30 minuten'),
-            ('30or60', 'Tussen 30 en 60 minuten'),
+            ('30to60', 'Tussen 30 en 60 minuten'),
             ('gt60', 'Meer dan 60 minuten'),
         ]
     )
