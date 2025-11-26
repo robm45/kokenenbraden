@@ -195,5 +195,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 try:
     LOGGING = import_module(LOGGING_MODULE).LOGGING
 except Exception as e:
-    raise importError(f"Kon logginconfiguration niet importeren: {LOGGING_MODULE} ({e})")
+    raise ImportError(f"Kon logginconfiguration niet importeren: {LOGGING_MODULE} ({e})")
 
