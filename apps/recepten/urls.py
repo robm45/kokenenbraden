@@ -32,5 +32,10 @@ urlpatterns = [
     path("zoeken/", views.recept_zoek, name="recept_zoek"),
 
     # print naar pdf
-    path("recept/<int:pk>/export_pdf", views.export_recept_pdf, name="recept-export-pdf")
+    path("recept/<int:pk>/export_pdf", views.export_recept_pdf, name="recept-export-pdf"),
+
+    # test views voor logging
+    path("test-logging/", views.test_logging_view, name="test-logging"),
+
 ]
+

@@ -5,6 +5,12 @@ from ..forms import ReceptForm
 from django.contrib import messages
 from django.core.paginator import Paginator
 
+def test(request):
+    logger.debug("DEBUG from view")
+    logger.info("INFO from view")
+    logger.error("ERROR from view")
+
+
 # ✅ Lijst van recepten (openbaar)
 def recept_lijst(request):
     # Als gebruiker een nieuwe keuze maakt, opslaan in sessie

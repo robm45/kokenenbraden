@@ -22,6 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 if os.environ.get('MOD_WSGI') != 'true':
      load_dotenv('/etc/django/kokenenbraden.env')
 
+LOGGING_CONFIG = 'logging.config.dictConfig'  # DIT MAG NIET OVERSCHREVEN WORDEN
+
 # --------------------
 # Basis instellingen
 #---------------------
@@ -196,4 +198,9 @@ try:
     LOGGING = import_module(LOGGING_MODULE).LOGGING
 except Exception as e:
     raise ImportError(f"Kon logginconfiguration niet importeren: {LOGGING_MODULE} ({e})")
+
+import logging
+print("=== SETTINGS.PY INGELADEN ===")
+logging.getLogger("django").info("SETTINGS → logging werkt (info)")
+logging.getLogger("django").error("SETTINGS → logging werkt (error)")
 

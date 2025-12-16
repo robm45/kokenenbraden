@@ -9,26 +9,33 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
 
+    # ---------- FORMATTERS -----------
     "formatters": {
         "verbose": {
-            "format": "[{asctime}] {levelname} {name} {message}",
+            "format": "[{asctime}] {levelname:<7} {name} — {message}",
             "style": "{",
         },
     },
 
+    # ---------- HANDLERS -------------
     "handlers": {
+        # Algemene file logging voor ALLE loggers
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
             "filename": str(LOG_DIR / "django_dev.log"),
             "formatter": "verbose",
         },
+
+        # Alleen voor email-debugs, niet normaal gebruik
         "mail_debug_file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
             "filename": str(LOG_DIR / "mail_debug.log"),
             "formatter": "verbose",
         },
+
+        # Mail naar ADMINS bij echte errors
         "mail_admins": {
             "level": "ERROR",
             "class": "django.utils.log.AdminEmailHandler",
@@ -36,26 +43,42 @@ LOGGING = {
         },
     },
 
+    # ---------- ROOT LOGGER ----------
+    # ALLES (ook jouw views, libs, applicaties) gaat hierheen
     "root": {
-        "handlers": ["file", "mail_debug_file"],
-        "level": "INFO",
+        "handlers": ["file"],
+        "level": "DEBUG",
     },
 
+    # ---------- DJANGO LOGGERS -------
     "loggers": {
+        # Algemene Django logging
         "django": {
             "handlers": ["file"],
             "level": "INFO",
-            "propagate": True,
+            "propagate": False,
         },
+
+        # Request errors → file + mail
         "django.request": {
             "handlers": ["file", "mail_admins"],
             "level": "ERROR",
             "propagate": False,
         },
+
+        # Security errors → file + mail
         "django.security": {
-            "handlers": ["file"],  # geen mail_admins hier meer
+            "handlers": ["file", "mail_admins"],
             "level": "ERROR",
+            "propagate": False,
+        },
+
+        # E-mail backend debug info (fontTools e.d.)
+        "django.core.mail": {
+            "handlers": ["mail_debug_file"],
+            "level": "DEBUG",
             "propagate": False,
         },
     },
 }
+

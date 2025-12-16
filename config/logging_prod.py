@@ -1,5 +1,7 @@
 import os
 from pathlib import Path
+import logging
+from logging.handlers import RotatingFileHandler
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_DIR = BASE_DIR / "logs"
@@ -9,52 +11,50 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
 
-    # --------- Formatters ---------
+    # ---------- FORMATTERS ----------
     "formatters": {
         "verbose": {
-            "format": "[{asctime}] {levelname} {name} {message}",
+            "format": "[{asctime}] {levelname:<7} {name} — {message}",
             "style": "{",
         },
     },
 
-    # --------- Handlers ---------
+    # ---------- HANDLERS ----------
     "handlers": {
-        # 📄 Logt alles vanaf INFO naar bestand
         "file": {
             "level": "INFO",
-            "class": "logging.FileHandler",
+            "class": "logging.handlers.RotatingFileHandler",
             "filename": str(LOG_DIR / "django_prod.log"),
             "formatter": "verbose",
+            "maxBytes": 5 * 1024 * 1024,  # 5 MB
+            "backupCount": 5,             # 5 oude logbestanden bewaren
+            "encoding": "utf-8",
         },
-
-        # 📨 Stuurt e-mail naar ADMINS bij fouten (500’s, etc.)
         "mail_admins": {
             "level": "ERROR",
             "class": "django.utils.log.AdminEmailHandler",
-            "include_html": True,  # HTML-versie van foutmail
+            "include_html": True,
         },
     },
 
-    # --------- Loggers ---------
+    # ---------- ROOT LOGGER ----------
     "root": {
         "handlers": ["file"],
         "level": "INFO",
     },
 
+    # ---------- DJANGO LOGGERS ----------
     "loggers": {
-        # Algemene Django-logging
         "django": {
             "handlers": ["file"],
             "level": "INFO",
-            "propagate": True,
+            "propagate": False,
         },
-        # HTTP request fouten (zoals 500 errors)
         "django.request": {
-            "handlers": ["file", "mail_admins"],  # Mail en file log
+            "handlers": ["file", "mail_admins"],
             "level": "ERROR",
             "propagate": False,
         },
-        # Onverwachte security-gerelateerde fouten
         "django.security": {
             "handlers": ["file", "mail_admins"],
             "level": "ERROR",
