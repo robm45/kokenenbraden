@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.recepten.apps.ReceptenConfig',
     'apps.users.apps.UsersConfig',
+    'apps.analytics.apps.AnalyticsConfig',
     "django_bootstrap5",
 ]
 
@@ -90,6 +91,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'apps.analytics.middleware.AnalyticsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

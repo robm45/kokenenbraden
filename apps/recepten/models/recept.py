@@ -27,7 +27,7 @@ class Recept(models.Model):
         return self.naam
 
     def get_absolute_url(self):
-        return reverse('recept:recept_detail', args=[str(self.id)])
+        return reverse('recepten:recept_detail', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

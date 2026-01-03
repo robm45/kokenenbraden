@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from apps.recepten.views.recept_analytics import ReceptDetailView
 
 app_name = 'recepten'
 
@@ -37,5 +38,6 @@ urlpatterns = [
     # test views voor logging
     path("test-logging/", views.test_logging_view, name="test-logging"),
 
+    # analytics
+    path('recept/<int:pk>/',ReceptDetailView.as_view(), name='recept_detail'),
 ]
-

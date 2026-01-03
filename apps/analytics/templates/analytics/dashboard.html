@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <h1>Analytics overzicht</h1>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Totaal aantal bezoekers</h5>
+      <p class="display-6">{{ total_visits }}</p>
+    </div>
+  </div>
+
+  <h2>Meest bezochte recepten</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Recept</th>
+        <th>Aantal bezoeken</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in top_recepten %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ item.recept.naam }}</td>
+        <td>{{ item.count }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3">Geen data beschikbaar</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}
+

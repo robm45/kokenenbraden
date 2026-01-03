@@ -2,6 +2,7 @@ from ..models import Categorie
 from ..models import GerechtType
 from ..models import HoofdIngredienten
 from ..models import Recept
+from apps.analytics.models import ReceptViewCount
 from django.shortcuts import render
 
 def welkom(request):
@@ -13,10 +14,18 @@ def welkom(request):
     num_hoofdingredienten = HoofdIngredienten.objects.all().count()
     num_gerechttype= GerechtType.objects.all().count()
 
+    # Top 5 meest bezochte recepten
+    top_recepten = (
+        ReceptViewCount.objects
+        .select_related("recept")
+        .order_by("-count")[:5]
+    )
+
     context = {
             'num_recepten': num_recepten,
             'num_categories': num_categories,
             'num_hoofdingredienten': num_hoofdingredienten,
             'num_gerechttype': num_gerechttype,
+            'top_recepten' : top_recepten,
     }
     return render(request, "welkom.html", context)

@@ -9,15 +9,52 @@
   <img src="{% static 'images/welkom.jpeg' %}" alt="Welkom" class="img-fluid rounded shadow">
 </div>
 
-<div class="card welcome-card mt-4 mx-auto" style="max-width: 600px;">
-  <div class="card-body">
-    <h4 class="card-title mb-3">De bibliotheek bevat de volgende gegevens:</h4>
-    <ul class="list-unstyled mb-0">
-      <li><strong>Recepten:</strong> {{ num_recepten }}</li>
-      <li><strong>Categoriën:</strong> {{ num_categories }}</li>
-      <li><strong>Hoofd ingredienten:</strong> {{ num_hoofdingredienten }}</li>
-      <li><strong>Gerecht type:</strong> {{ num_gerechttype }}</li>
-    </ul>
+<div class="container mt-4">
+  <div class="row">
+
+    <!-- LINKER BLOK: tellers -->
+    <div class="col-md-6">
+      <div class="card welcome-card h-100">
+        <div class="card-body">
+          <h4 class="card-title mb-3">De bibliotheek bevat:</h4>
+          <ul class="list-unstyled mb-0">
+            <li><strong>Recepten:</strong> {{ num_recepten }}</li>
+            <li><strong>Categoriën:</strong> {{ num_categories }}</li>
+            <li><strong>Hoofd ingrediënten:</strong> {{ num_hoofdingredienten }}</li>
+            <li><strong>Gerecht types:</strong> {{ num_gerechttype }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECHTER BLOK: top 5 recepten -->
+    <div class="col-md-6">
+      <div class="card welcome-card h-100">
+        <div class="card-body">
+          <h4 class="card-title mb-3">Top 5 gekozen recepten</h4>
+
+          {% if top_recepten %}
+            <ol class="mb-0">
+              {% for item in top_recepten %}
+                <li>
+                  <a href="{{ item.recept.get_absolute_url }}">
+                    {{ item.recept.naam }}
+                  </a>
+                  <span class="text-muted">
+                    ({{ item.count }} keer)
+                  </span>
+                </li>
+              {% endfor %}
+            </ol>
+          {% else %}
+            <p class="text-muted mb-0">
+              Nog geen statistieken beschikbaar.
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
