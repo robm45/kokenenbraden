@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from ..models.recept import Recept
-from ..forms import ReceptForm
+from ..forms import ReceptForm, IngredientFormSet
 from django.contrib import messages
 from django.core.paginator import Paginator
 
@@ -68,23 +68,34 @@ def recept_bewerk(request, pk):
     recept = get_object_or_404(Recept, pk=pk)
     if request.method == "POST":
         form = ReceptForm(request.POST, request.FILES, instance=recept)
-        if form.is_valid():
+        formset = IngredientFormSet(request.POST, instance=recept)
+
+        if form.is_valid() and formset.is_valid():
             form.save()
+            formset.save()
             messages.success(request, "Recept is succesvol bijgewerkt.")
             return redirect("recepten:recept_detail", pk=recept.pk)
     else:
         form = ReceptForm(instance=recept)
-    return render(request, "recepten/recept_invoer.html", {"form": form})
+        formset = IngredientFormSet(instance=recept)
+
+    return render(request, "recepten/recept_invoer.html", {"form": form, "formset": formset})
 
 # ✅ Aanmaken recept (alleen ingelogd)
 @login_required
 def recept_invoer(request):
     if request.method == "POST":
         form = ReceptForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
+        formset = IngredientFormSet(request.POST)
+
+        if form.is_valid() and formset.is_valid():
+            recept = form.save()
+            formset.instance = recept
+            formset.save()
             messages.success(request, "Recept is succesvol toegevoegd.")
             return redirect("recepten:recept_lijst")
     else:
         form = ReceptForm()
-    return render(request, "recepten/recept_invoer.html", {"form": form})
+        formset = IngredientFormSet()
+
+    return render(request, "recepten/recept_invoer.html", {"form": form, "formset": formset})

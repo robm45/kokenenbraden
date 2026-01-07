@@ -84,6 +84,7 @@ INSTALLED_APPS = [
     'apps.recepten.apps.ReceptenConfig',
     'apps.users.apps.UsersConfig',
     'apps.analytics.apps.AnalyticsConfig',
+    'apps.tools.apps.ToolsConfig',
     "django_bootstrap5",
 ]
 
@@ -202,7 +203,4 @@ except Exception as e:
     raise ImportError(f"Kon logginconfiguration niet importeren: {LOGGING_MODULE} ({e})")
 
 import logging
-print("=== SETTINGS.PY INGELADEN ===")
-logging.getLogger("django").info("SETTINGS → logging werkt (info)")
-logging.getLogger("django").error("SETTINGS → logging werkt (error)")
 

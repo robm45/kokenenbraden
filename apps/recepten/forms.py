@@ -1,6 +1,7 @@
 from django import forms
+from django.forms import inlineformset_factory
 from .models import Categorie, GerechtType, HoofdIngredienten
-from .models import Recept
+from .models import Recept, Ingredient
 
 class CategorieForm(forms.ModelForm):
     class Meta:
@@ -23,7 +24,7 @@ class IngredientForm(forms.ModelForm):
 class ReceptForm(forms.ModelForm):
     class Meta:
         model = Recept
-        fields = "__all__"   # alle velden, inclusief 'foto'
+        exclude = ["ingredienten"]
         widgets = {
             "naam": forms.TextInput(attrs={"class": "form-control"}),
             "mapnummer": forms.TextInput(attrs={"class": "form-control"}),
@@ -31,13 +32,37 @@ class ReceptForm(forms.ModelForm):
             "bereidingstijd": forms.NumberInput(attrs={"class": "form-control"}),
             "aantal_personen": forms.TextInput(attrs={"class": "form-control"}),
             "bereiding": forms.Textarea(attrs={"class": "form-control", "rows": 5}),
-            "ingredienten": forms.Textarea(attrs={"class": "form-control", "rows": 4}),
             "per_portie": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
             "hoofd_ingredienten": forms.SelectMultiple(attrs={"class": "form-select"}),
             "categorie": forms.Select(attrs={"class": "form-select"}),
             "gerecht_type": forms.Select(attrs={"class": "form-select"}),
             "foto": forms.ClearableFileInput(attrs={"class": "form-control"}),  # 👈 nieuwe widget
         }
+
+class IngredientForm(forms.ModelForm):
+    class Meta:
+        model = Ingredient
+        fields = ("ingredient_naam", "hoeveelheid", "eenheid")
+        widgets = {
+            "ingredient_naam": forms.TextInput(
+                attrs={"class": "form-control"}
+            ),
+            "hoeveelheid": forms.NumberInput(
+                attrs={"class": "form-control", "step": "0.1"}
+            ),
+            "eenheid": forms.Select(
+                attrs={"class": "form-select"}
+            ),
+        }
+
+
+IngredientFormSet = inlineformset_factory(
+        Recept,
+        Ingredient,
+        form=IngredientForm,
+        extra=3,
+        can_delete=True,
+)
 
 class ReceptZoekForm(forms.Form):
     zoekterm = forms.CharField(
