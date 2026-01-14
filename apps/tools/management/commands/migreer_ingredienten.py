@@ -5,7 +5,7 @@ from fractions import Fraction
 import re
 
 # DRY_RUN = True → alleen printen, geen data opslaan
-DRY_RUN = False
+DRY_RUN = True
 
 # Mapping van eenheden
 EENHEDEN_MAP = {
@@ -19,10 +19,12 @@ EENHEDEN_MAP = {
     "eetlepel": "el",
     "tl": "tl",
     "theelepel": "tl",
+    "pond": "pond",
     "stuk": "st",
     "stuks": "st",
     "teentje": "st",
     "bosje": "st",
+    "pak": "pak",
 }
 
 STUK_WOORDEN = [
@@ -43,6 +45,34 @@ UNICODE_FRACTIONS = {
     "⅓": "1/3",
     "⅔": "2/3",
 }
+
+SCHALING = {
+    "portion": "Schaalbaar per persoon",
+    "fixed": "Vast per gerecht",
+    "none":  "Niet Schalen",
+}
+
+VAST_PER_GERECHT =  {
+    "pizzadeeeg",
+    "quichedeeg",
+}
+
+NIET_SCHAALBAAR = {
+    "zout",
+    "peper",
+    "suiker",
+    "olie",
+    "olijfolie",
+    "azijn",
+    "boter",
+    "margarine",
+    "knoflookpoeder",
+    "paprikapoeder",
+    "komijn",
+    "kerrie",
+    "nootmuskaat",
+}
+
 
 def normalize_regel(regel):
     regel = regel.strip()
@@ -78,22 +108,42 @@ def parse_hoeveelheid(qty_raw):
 
     return int(qty_raw)
 
+def bepaal_schaling(naam: str) -> str:
+    naam = naam.lower()
+
+    # enkelvoud maken (simpel maar effectief)
+    if naam.endswith("en"):
+        naam = naam[:-2]
+    elif naam.endswith("s"):
+        naam = naam[:-1]
+
+    for woord in NIET_SCHAALBAAR:
+        if woord in naam:
+            return "none"
+
+    for woord in VAST_PER_GERECHT:
+        if woord in naam:
+            return "fixed"
+
+    return "portion"
+
 
 def parse_ingredient_regel(regel):
     regel = normalize_regel(regel)
 
     if not re.match(r"^\d", regel):
-        return 1, "-", regel
+        return 0, "","none", regel
 
     match = re.match(r"^(?P<qty>\d+(?: \d+/\d+)?|\d+/\d+|\d+-\d+)\s+(?P<rest>.+)$", regel)
     if not match:
-        return 1, "-", regel
+        return 0, "", "none", regel
 
     qty_raw = match.group("qty")
     rest = match.group("rest").strip()
 
     hoeveelheid = parse_hoeveelheid(qty_raw)
     eenheid = "-"
+    schaling = "portion"
     naam = rest
 
     # bekende eenheden
@@ -106,25 +156,39 @@ def parse_ingredient_regel(regel):
     # stuk-woorden
     for woord in STUK_WOORDEN:
         if rest.lower().startswith(woord):
-            eenheid = "st"
+            eenheid = ""
+            schaling = "portion"
             naam = rest
             break
+
+    if eenheid in ("blik", "bosje"):
+        schaling = "fixed"
 
     naam = re.sub(r"'s\b", "", naam)
     naam = naam.strip(" -+")
 
-    return hoeveelheid, eenheid, naam
+    schaling = bepaal_schaling(naam)
+
+    return hoeveelheid, eenheid, schaling, naam
 
 
 class Command(BaseCommand):
     help = "Migreer ingredienten tekstveld naar Ingredient model"
 
     def handle(self, *args, **options):
-        recepten = Recept.objects.exclude(ingredienten="").order_by("id")
+        recepten = (
+                Recept.objects
+                .exclude(ingredienten__isnull=True)
+                .exclude(ingredienten__exact="")
+                .order_by("id")
+        )
         for recept in recepten:
+            if not recept.ingredienten:
+                continue
+
             regels = recept.ingredienten.splitlines()
             for regel in regels:
-                hoeveelheid, eenheid, naam = parse_ingredient_regel(regel)
+                hoeveelheid, eenheid, schaling, naam = parse_ingredient_regel(regel)
 
                 # DRY_RUN → printen
                 if DRY_RUN:
@@ -132,6 +196,7 @@ class Command(BaseCommand):
                         f"[DRY-RUN] Recept: {recept.naam} | "
                         f" {regel} -->  "
                         f" {hoeveelheid} | "
+                        f" {schaling} | "
                         f" {eenheid} | "
                         f" {naam}"
                     )
@@ -141,7 +206,8 @@ class Command(BaseCommand):
                         recept=recept,
                         ingredient_naam=naam,
                         hoeveelheid=hoeveelheid,
-                        eenheid=eenheid
+                        eenheid=eenheid,
+                        schaling=schaling
                     )
             self.stdout.write(f"✔ {recept.naam} gemigreerd")
 

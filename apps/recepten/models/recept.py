@@ -49,12 +49,23 @@ class Ingredient(models.Model):
         ("el", "eetlepel"),
         ("tl", "theelepel"),
         ("st", "stuk"),
+        ("bosje", "bosje"),
+        ("blik", "blik"),
+        ("pak", "pak"),
+        ("pond", "pond"),
+    ]
+
+    SCHALING_CHOICES = [
+        ("none", "Niet schalen"),
+        ("fixed", "Vast per gerecht"),
+        ("portion", "Schaalbaar per persoon"),
     ]
 
     recept = models.ForeignKey(Recept, related_name='ingredient_items', on_delete=models.CASCADE)
     ingredient_naam=models.CharField(max_length=100)
     hoeveelheid = models.FloatField()
     eenheid = models.CharField(max_length=5, choices=EENHEID_CHOICES, blank=True)
+    schaling = models.CharField(max_length=10, choices=SCHALING_CHOICES, default= "portion")
 
     def __str__(self):
         if self.eenheid:

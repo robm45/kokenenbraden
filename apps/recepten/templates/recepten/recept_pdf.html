@@ -1,4 +1,5 @@
 {% load static %}
+{% load nl_numbers %}
 
 <!DOCTYPE html>
 <html lang="nl">
@@ -30,7 +31,7 @@
   <!-- Meta info -->
   <div class="recept-meta">
     <div><strong>⏱ Bereidingstijd:</strong> {{ recept.bereidingstijd }} min</div>
-    <div><strong>👥 Personen:</strong> {{ recept.aantal_personen }}</div>
+    <div><strong>👥 Personen:</strong> {{ personen }}</div>
     <div><strong>Categorie:</strong> {{ recept.categorie }}</div>
     <div><strong>Gerecht type:</strong> {{ recept.gerecht_type }}</div>
     <div><strong>Per portie:</strong> {{ recept.per_portie }}</div>
@@ -42,13 +43,16 @@
     <div class="recept-card ingredienten-card">
       <div class="card-header">Ingrediënten</div>
       <div class="card-body">
-        {% if recept.ingredienten %}
+        {% if ingredienten %}
           <ul class="ingredienten-lijst">
-              {% for regel in recept.ingredienten.splitlines %}
-                {% if regel %}
-                  <li>{{ regel }}</li>
-                {% endif %}
-              {% endfor %}
+            {% for i in ingredienten %}
+               <li>
+                  {% if i.hoeveelheid %}
+                     {{ i.hoeveelheid }}{% if i.eenheid %} {{ i.eenheid }}{% endif %}
+                  {% endif %}
+                  {{ i.naam }}
+               </li>
+            {% endfor %}
           </ul>
         {% else %}
           <p>-</p>

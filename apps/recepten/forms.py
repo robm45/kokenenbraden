@@ -42,7 +42,7 @@ class ReceptForm(forms.ModelForm):
 class IngredientForm(forms.ModelForm):
     class Meta:
         model = Ingredient
-        fields = ("ingredient_naam", "hoeveelheid", "eenheid")
+        fields = ("ingredient_naam", "hoeveelheid", "eenheid", "schaling")
         widgets = {
             "ingredient_naam": forms.TextInput(
                 attrs={"class": "form-control"}
@@ -53,6 +53,9 @@ class IngredientForm(forms.ModelForm):
             "eenheid": forms.Select(
                 attrs={"class": "form-select"}
             ),
+            "schaling": forms.Select(
+                attrs={"class": "form-select"}
+            ),
         }
 
 
@@ -60,7 +63,7 @@ IngredientFormSet = inlineformset_factory(
         Recept,
         Ingredient,
         form=IngredientForm,
-        extra=3,
+        extra=1,
         can_delete=True,
 )
 

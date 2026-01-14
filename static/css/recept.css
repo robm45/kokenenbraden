@@ -115,3 +115,12 @@
   font-size: 1.2rem;
 }
 
+.ingredient-form input[type="checkbox"][name$="DELETE"] {
+  display: none;
+}
+
+.ingredient-form td:last-child {
+    text-align: center;
+    width: 80px; /* breedte voor de knop */
+}
+

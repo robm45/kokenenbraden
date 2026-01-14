@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load ingredient_filters %}
+{% load nl_numbers %}
 
 {% block title %}Recept detail{% endblock %}
 
@@ -27,7 +28,9 @@
         <i class="bi bi-people"></i> Personen
       </span>
       <select id="personen-selector"
-              class="form-select form-select-sm w-auto ">
+              class="form-select form-select-sm w-auto "
+              data-base-persons="{{ recept.aantal_personen }}"
+        >
         {% for i in "12345678910"|make_list %}
           <option value="{{ forloop.counter }}"
             {% if forloop.counter == recept.aantal_personen %}selected{% endif %}>
@@ -59,13 +62,13 @@
                 <li
                   data-base-hoeveelheid="{{ ingredient.hoeveelheid }}"
                   data-eenheid="{{ ingredient.eenheid }}"
+                  data-schaling="{{ ingredient.schaling }}"
+                  data-naam="{{ ingredient.ingredient_naam }}"
                 >
                   <span class="ingredient-hoeveelheid">
                     {{ ingredient|format_hoeveelheid }}
                   </span>
-                  {% if ingredient.eenheid %}
-                    {{ ingredient.eenheid }}
-                  {% endif %}
+                  {% if ingredient.eenheid %} {{ ingredient.eenheid }} {% endif %}
                   {{ ingredient.ingredient_naam }}
                 </li>
               {% endfor %}
@@ -96,7 +99,9 @@
   <div class="mt-4 action-buttons">
     <a href="{% url 'recepten:recept_lijst' %}" class="btn btn-secondary">Terug naar lijst</a>
 
-    <a href="{% url 'recepten:recept-export-pdf' pk=recept.id %}" class="btn btn-secondary">Download als PDF</a>
+    <a id="pdf-download"
+       href="{% url 'recepten:recept-export-pdf' pk=recept.id %}" 
+            class="btn btn-secondary">Download als PDF</a>
     
     <button id="wake-lock-button" class="btn btn-primary">🟢 Scherm aanhouden: UIT</button>
 
@@ -116,71 +121,13 @@
    {% endif %}
   </div>
 </div>
+
+<!-- Script om ingredienten te berekene --> 
+<script src="{% static 'js/ingredienten.js' %}"></script>
+
 <!-- Script om het scherm aan te houden wanneer er een recept op het scherm staat -->
+<script src="{% static 'js/wakelock.js' %}"></script>
 
-<script>
-
-// script to prevent the screensaver
-let wakeLock = null;
-const button = document.getElementById('wake-lock-button');
-
-async function toggleWakeLock() {
-  if (wakeLock) {
-    // Uitschakelen
-    await wakeLock.release();
-    wakeLock = null;
-    button.textContent = "🟢 Scherm aanhouden: UIT";
-  } else {
-    try {
-      wakeLock = await navigator.wakeLock.request("screen");
-      button.textContent = "🔵 Scherm aanhouden: AAN";
-
-      // Heractiveren als tab focus terugkrijgt
-      document.addEventListener("visibilitychange", async () => {
-        if (wakeLock !== null && document.visibilityState === "visible") {
-          wakeLock = await navigator.wakeLock.request("screen");
-        }
-      });
-    } catch (err) {
-      alert("Wake Lock niet ondersteund of geweigerd: " + err);
-    }
-  }
-}
-
-button.addEventListener('click', toggleWakeLock);
-
-// script to calculate the amount of ingredients dependingin of the persons
-const basePersons = {{ recept.aantal_personen }};
-const selector = document.getElementById("personen-selector");
-const ingredienten = document.querySelectorAll("#ingredienten-lijst li");
-
-  function formatHoeveelheid(amount, unit) {
-    // stuks / geen eenheid → afronden
-    if (unit === "" || unit === "st") {
-      return Math.round(amount);
-    }
-
-    // max 1 decimaal, geen .0
-    if (Number.isInteger(amount)) {
-      return amount;
-    }
-    return amount.toFixed(1).replace(".0", "");
-  }
-
-  selector.addEventListener("change", function () {
-    const factor = this.value / basePersons;
-
-    ingredienten.forEach(li => {
-      const base = parseFloat(li.dataset.baseHoeveelheid);
-      const unit = li.dataset.eenheid;
-      const nieuweHoeveelheid = base * factor;
-
-      li.querySelector(".ingredient-hoeveelheid").textContent =
-        formatHoeveelheid(nieuweHoeveelheid, unit);
-    });
-  });
-
-</script>
 
 {% endblock %}
 

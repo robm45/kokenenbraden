@@ -76,14 +76,15 @@ body.pdf-versie .ingredienten-card {
 }
 
 body.pdf-versie .ingredienten-lijst {
-  padding-left: 18px;
+  padding-left: 0;
   margin: 0;
+  list-style-position: inside;
 }
 
 body.pdf-versie .ingredienten-lijst li {
   margin-bottom: 4px;
-  list-style-type: disc;
   font-size: 0.7rem;
+  padding-left: 4px;
 }
 
 body.pdf-versie .bereiding-card {
