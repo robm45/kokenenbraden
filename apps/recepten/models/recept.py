@@ -51,6 +51,7 @@ class Ingredient(models.Model):
         ("st", "stuk"),
         ("bosje", "bosje"),
         ("blik", "blik"),
+        ("potje", "potje"),
         ("pak", "pak"),
         ("pond", "pond"),
     ]
@@ -63,7 +64,7 @@ class Ingredient(models.Model):
 
     recept = models.ForeignKey(Recept, related_name='ingredient_items', on_delete=models.CASCADE)
     ingredient_naam=models.CharField(max_length=100)
-    hoeveelheid = models.FloatField()
+    hoeveelheid = models.FloatField(default=0)
     eenheid = models.CharField(max_length=5, choices=EENHEID_CHOICES, blank=True)
     schaling = models.CharField(max_length=10, choices=SCHALING_CHOICES, default= "portion")
 
