@@ -53,6 +53,33 @@
       </div>
     </div>
 
+    <!-- BLOK: Laatste 3 toegevoegde recepten -->
+    {% if laatste_recepten %}
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="card welcome-card shadow-sm">
+            <div class="card-body">
+              <h4 class="card-title mb-3">Laatst toegevoegde recepten</h4>
+              <ul class="list-group list-group-flush">
+                {% for recept in laatste_recepten %}
+                  <li class="laatste-recept-item d-flex justify-content-between align-items-center"> 
+                    <div>
+                      <a href="{% url 'recepten:recept_detail' recept.id %}" class="text-decoration-none fw-bold">
+                        {{ recept.naam }}
+                      </a>
+                      <br>
+                      <small class="text-muted">{{ recept.datum_toegevoegd|timesince }} geleden</small>
+                    </div>
+                    <span class="badge bg-success">Nieuw</span>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
   </div>
 </div>
 

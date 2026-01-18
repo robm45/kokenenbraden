@@ -45,7 +45,12 @@
 
         <div>
           <span class="recept-link">{{ recept.naam }}</span>
-          <p class="mb-0 text-muted">({{ recept.categorie }} | {{ recept.gerecht_type }})</p>
+          {% if recept.is_nieuw %}
+             <span class="badge bg-success ms-2">Nieuw</span>
+          {% endif %}
+          <p class="mb-0 text-muted">
+             ({{ recept.categorie }} | {{ recept.gerecht_type }})
+          </p>
         </div>
       </div>
 

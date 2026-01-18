@@ -21,11 +21,14 @@ def welkom(request):
         .order_by("-count")[:5]
     )
 
+    laatste_recepten = Recept.objects.order_by("-datum_toegevoegd")[:3]
+
     context = {
             'num_recepten': num_recepten,
             'num_categories': num_categories,
             'num_hoofdingredienten': num_hoofdingredienten,
             'num_gerechttype': num_gerechttype,
             'top_recepten' : top_recepten,
+            'laatste_recepten': laatste_recepten,
     }
     return render(request, "welkom.html", context)

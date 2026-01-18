@@ -5,6 +5,9 @@ from django.urls import reverse
 from .categorie import Categorie
 from .ingredient import HoofdIngredienten
 from .gerechttype import GerechtType
+from django.utils import timezone
+from datetime import timedelta
+
 from apps.recepten.utils import recept_image_path
 
 # Reccept model
@@ -36,6 +39,9 @@ class Recept(models.Model):
             with Image.open(img_path) as img:
                 img.thumbnail((810, 650))
                 img.save(img_path)
+    @property
+    def is_nieuw(self):
+        return self.datum_toegevoegd >= timezone.now() - timedelta(days=14)
 
 # Ingredienten basis 4 personen
 class Ingredient(models.Model):
