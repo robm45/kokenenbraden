@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+  <h1>Analytics resetten</h1>
+
+  <p>
+    Weet je zeker dat je <strong>alle analytics data</strong> wilt verwijderen?
+    <br>
+    Dit kan niet ongedaan worden gemaakt.
+  </p>
+
+  <form method="post">
+    {% csrf_token %}
+    <input type="submit" value="Ja, reset analytics" class="deletelink">
+    <a href="../" class="button cancel-link">Annuleren</a>
+  </form>
+{% endblock %}
+
