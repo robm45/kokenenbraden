@@ -2,6 +2,7 @@
 {% load static %}
 {% load ingredient_filters %}
 {% load nl_numbers %}
+{% load l10n %}
 
 {% block title %}Recept detail{% endblock %}
 
@@ -60,16 +61,16 @@
             <ul class="ingredienten-lijst" id="ingredienten-lijst">
               {% for ingredient in recept.ingredient_items.all %}
                 <li
+                  {% localize off %}
                   data-base-hoeveelheid="{{ ingredient.hoeveelheid }}"
+                  {% endlocalize %}
                   data-eenheid="{{ ingredient.eenheid }}"
                   data-schaling="{{ ingredient.schaling }}"
                   data-naam="{{ ingredient.ingredient_naam }}"
                 >
-                  <span class="ingredient-hoeveelheid">
-                    {{ ingredient|format_hoeveelheid }}
-                  </span>
-                  {% if ingredient.eenheid %} {{ ingredient.eenheid }} {% endif %}
-                  {{ ingredient.ingredient_naam }}
+                  <span class="ingredient-hoeveelheid"></span>
+                  <span class="ingredient-eenheid">{{ ingredient.eenheid }}</span>
+                  <span clas="ingredient-naam">{{ ingredient.ingredient_naam }}</span>
                 </li>
               {% endfor %}
             </ul>
