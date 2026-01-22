@@ -63,13 +63,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-
 function renderIngredient(li) {
-  const baseAmount = parseFloat(li.dataset.baseHoeveelheid);
-  const unit = li.dataset.eenheid || "";
-  const scaling = li.dataset.schaling;
+  console.log({
+  naam: li.dataset.naam,
+  baseAmount,
+  amount,
+  unit
+  });
 
-  if (Number.isNaN(baseAmount)) return;
+  const baseAmount = parseFloat(li.dataset.baseHoeveelheid);
+  const unit = (li.dataset.eenheid || "").trim();
+  const scaling = li.dataset.schaling;
 
   let amount = baseAmount;
 
@@ -78,11 +82,29 @@ function renderIngredient(li) {
     amount = baseAmount * (personen / basePersons);
   }
 
+  const amountSpan = li.querySelector(".ingredient-hoeveelheid");
+  const unitSpan = li.querySelector(".ingredient-eenheid");
+
+  // 👉 GEEN hoeveelheid + eenheid bij 0 / NaN én geen zinvolle unit
+  const noAmount = Number.isNaN(amount) || amount === 0;
+  const noUnit = unit === "" || unit === "-";
+
+  if (noAmount && noUnit) {
+    if (amountSpan) amountSpan.textContent = "";
+    if (unitSpan) unitSpan.textContent = "";
+    return;
+  }
+
+  // 👉 hoeveelheid formatteren
   const formatted = formatHoeveelheid(amount, unit);
 
-  const amountSpan = li.querySelector(".ingredient-hoeveelheid");
   if (amountSpan) {
     amountSpan.textContent = formatted;
+  }
+
+  // 👉 unit tonen alleen als zinvol
+  if (unitSpan) {
+    unitSpan.textContent = noUnit ? "" : unit;
   }
 }
 
@@ -101,4 +123,63 @@ function renderIngredient(li) {
        }
   });
  
-});           
+function renderIngredient(li) {
+  const baseAmount = parseFloat(li.dataset.baseHoeveelheid);
+  const unit = li.dataset.eenheid;
+  const scaling = li.dataset.schaling;
+  
+  //if (Number.isNaN(baseAmount)) return;
+  
+  let amount = baseAmount;
+  
+  if (scaling === "portion") {
+    const personen = parseInt(selector.value, 10);
+    amount = baseAmount * (personen / basePersons);
+  }
+  
+  const amountSpan = li.querySelector(".ingredient-hoeveelheid");
+  const unitSpan = li.querySelector(".ingredient-eenheid");
+  
+// 👉 niets tonen bij 0 of ongeldig
+  if (!amount || amount === 0 || Number.isNaN(amount)) {
+    if (amountSpan) amountSpan.textContent = "";
+    if (unitSpan) unitSpan.textContent = "";
+    return;
+  }
+  
+// 👉 formatteren
+  const formatted = formatHoeveelheid(amount, unit);
+  
+// 👉 hoeveelheid
+  if (amountSpan) {
+    amountSpan.textContent = formatted;
+  }
+  
+// 👉 eenheid alleen tonen als die zinvol is
+  if (unitSpan) {
+    if (unit && unit !== "-") {
+      unitSpan.textContent = unit;
+    } else {
+      unitSpan.textContent = "";
+    }
+  }
+  
+} 
+  
+            
+              
+  // ✅ BIJ WIJZIGEN PERSONEN
+  selector.addEventListener("change", function () {
+       document.querySelectorAll("li[data-base-hoeveelheid]").forEach(li => {
+          renderIngredient(li);
+       });
+  
+       if (pdfLink) {
+          const url = new URL(pdfLink.href);
+          url.searchParams.set("personen", this.value);
+          pdfLink.href = url.toString();
+       }
+  });
+  
+});                                                                                                                                                                                 
+;           

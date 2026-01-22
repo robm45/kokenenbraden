@@ -14,7 +14,7 @@ from apps.recepten.utils import recept_image_path
 class Recept(models.Model):
     mapnummer = models.CharField(max_length=10, blank=True)
     naam = models.CharField(max_length=200)
-    samenvatting = models.TextField(max_length=100, blank=True, null=True)
+    samenvatting = models.TextField(max_length=1000, blank=True, null=True)
     bereidingstijd = models.IntegerField(default=30)
     aantal_personen = models.PositiveIntegerField(default=4)
     bereiding = models.TextField(max_length=2500)

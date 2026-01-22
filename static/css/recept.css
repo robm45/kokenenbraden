@@ -124,3 +124,40 @@
     width: 80px; /* breedte voor de knop */
 }
 
+/* Samenvatting modal styling */
+.samenvatting-modal {
+  background-color: #f6fbf7;
+  border: 1px solid #a9d5b5;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Header */
+.samenvatting-modal .modal-header {
+  background-color: #d0ecd7;
+  border-bottom: 1px solid #a9d5b5;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.samenvatting-modal .modal-title {
+  font-weight: 600;
+  color: #1f5e3b;
+}
+
+/* Body */
+.samenvatting-modal .modal-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #2f4f3e;
+  padding: 1.25rem;
+}
+
+/* Button */
+.btn-outline-success {
+  --bs-btn-color: #2f7d4f;
+  --bs-btn-border-color: #2f7d4f;
+  --bs-btn-hover-bg: #2f7d4f;
+  --bs-btn-hover-border-color: #2f7d4f;
+}
+

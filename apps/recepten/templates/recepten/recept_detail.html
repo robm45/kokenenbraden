@@ -120,7 +120,37 @@
        </button>
      </form>
    {% endif %}
+
+  <!-- Knop meer info -->
+   
+  {% if recept.samenvatting %} 
+     <button type="button" 
+             class="btn btn-sm btn-info" 
+             data-bs-toggle="modal" 
+             data-bs-target="#samenvattingModal{{ recept.id }}">
+        Meer info
+     </button>
+
+  <!-- Modal -->
+     <div class="modal fade" id="samenvattingModal{{ recept.id }}" tabindex="-1" aria-hidden="true">
+       <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content samenvatting-modal">
+          <div class="modal-header">
+            <h5 class="modal-title">{{ recept.naam }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Sluiten"></button>
+          </div>
+          <div class="modal-body">
+            {{ recept.samenvatting|linebreaks }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluiten</button>
+          </div>
+        </div>
+       </div>
+     </div>
+  {% endif %}
   </div>
+
 </div>
 
 <!-- Script om ingredienten te berekene --> 
@@ -129,8 +159,6 @@
 <!-- Script om het scherm aan te houden wanneer er een recept op het scherm staat -->
 <script src="{% static 'js/wakelock.js' %}"></script>
 
-
 {% endblock %}
-
 
 
