@@ -1,0 +1,91 @@
+<VirtualHost *:80>
+    ServerName <server naam>>
+    Redirect / https://<domein naam>>/
+</VirtualHost>
+
+
+<VirtualHost *:443>
+    ServerName <server naam>
+    DocumentRoot /opt/kokenenbraden
+    ErrorLog ${APACHE_LOG_DIR}/kokenenbraden-error.log
+    CustomLog ${APACHE_LOG_DIR}/kokenenbraden-access.log combined
+    SSLEngine on
+    ServerAlias <domein naam>
+    SSLCertificateFile /etc/letsencrypt/live/<domein naam>/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/<domein naam>/privkey.pem
+    Include /etc/letsencrypt/options-ssl-apache.conf
+
+    RewriteEngine On
+
+    Alias /maintenance.html /opt/kokenenbraden/apps/recepten/templates/recepten/maintenance.html
+
+    <Location "/maintenance.html">
+         Require all granted
+    </Location>
+
+
+    RewriteCond /etc/django/maintenance_on -f
+    RewriteCond %{REMOTE_ADDR} !^85\.215\.206\.4$
+    RewriteCond %{REQUEST_URI} !^/maintenance\.html$
+    RewriteCond %{REQUEST_URI} !^/static/
+    RewriteCond %{REQUEST_URI} !^/media/
+    RewriteRule ^.*$ /maintenance.html [R=503,L]
+
+    ErrorDocument 503 /maintenance.html
+    Alias /robots.txt /opt/kokenenbraden/robots.txt
+
+    #<Directory /opt/kokenenbraden>
+    #   Require all denied
+    #      <Files "robots.txt">
+    #          Require all granted
+    #      </Files>
+    #</Directory>
+
+    <Directory /opt/kokenenbraden>
+        Options Indexes FollowSymLinks
+       AllowOverride All
+       Require all granted
+   </Directory>
+
+    <Directory /opt/kokenenbraden/config>
+        <Files wsgi.py>
+            Require all granted
+        </Files>
+    </Directory>
+
+    Alias /static/ /opt/kokenenbraden/staticfiles/
+    <Directory /opt/kokenenbraden/staticfiles>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    Alias /images/ /opt/kokenenbraden/images
+    <Directory /opt/kokenenbraden/images/>
+        Require all granted
+    </Directory>
+
+
+    Alias /media/ /opt/kokenenbraden/media/
+
+    <Directory /opt/kokenenbraden/media>
+        Options +FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+   # Wanneer gebruik wordt gemaakt van runserver.
+
+   # WSGIErrorOverride On
+   # WSGIApplicationGroup %{GLOBAL}
+   # WSGIRestrictEmbedded On
+   # WSGIChunkedRequest On
+   # WSGIRequestBodyLimit 10485760
+   # WSGIResponseBufferSize 65536
+
+
+    WSGIDaemonProcess <domein naam> python-home=/opt/kokenenbraden/venv python-path=/opt/kokenenbraden
+    WSGIProcessGroup <domein naam>
+    WSGIApplicationGroup %{GLOBAL}
+    WSGIScriptAlias / /opt/kokenenbraden/config/wsgi.py process-group=<domein naam>
+</VirtualHost>
