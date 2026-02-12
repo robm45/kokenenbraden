@@ -11,7 +11,7 @@ from ..models.recept import *  # pas aan naar jouw app/model
 def format_hoeveelheid(amount, unit):
 
     if amount is None  or amount == 0:
-        print("   ➜ Geen hoeveelheid → lege string")
+#        print("   ➜ Geen hoeveelheid → lege string")
         return ""
 
     # stuks afronden
@@ -59,21 +59,21 @@ def export_recept_pdf(request, pk):
 
         if item.schaling == "none" or item.hoeveelheid == 0:
             hoeveelheid = None
-            print("   ➜ Geen schaling / geen hoeveelheid")
+#            print("   ➜ Geen schaling / geen hoeveelheid")
         elif item.schaling == "fixed":
             hoeveelheid = item.hoeveelheid
-            print("   ➜ Fixed hoeveelheid:", hoeveelheid)
+#            print("   ➜ Fixed hoeveelheid:", hoeveelheid)
         else:
             hoeveelheid = item.hoeveelheid * factor
-            print("   ➜ Geschaald:", hoeveelheid)
+#            print("   ➜ Geschaald:", hoeveelheid)
 
         if item.eenheid == "st" and hoeveelheid is not None:
             hoeveelheid = math.ceil(hoeveelheid)
-            print("   ➜ Afgerond (st):", hoeveelheid)
+#            print("   ➜ Afgerond (st):", hoeveelheid)
 
         hoeveelheid_str = format_hoeveelheid(hoeveelheid, item.eenheid)
 
-        print("   ✔ Eindresultaat:", hoeveelheid_str)
+#        print("   ✔ Eindresultaat:", hoeveelheid_str)
 
         ingredienten.append({
             "naam": item.ingredient_naam,
