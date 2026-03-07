@@ -118,6 +118,16 @@
           });
         }
       });
+      document.addEventListener("DOMContentLoaded", function() {
+        fetch("/analytics/track-visit/", {
+         method: "POST",
+         headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest"
+        }
+        });
+      });
     </script>
   </body>
 </html>

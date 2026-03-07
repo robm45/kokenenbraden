@@ -37,6 +37,57 @@
     </tbody>
   </table>
 
+
+  <h2 class="mt-5">Recente bezoekers (User Agents)</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Tijd</th>
+        <th>IP</th>
+        <th>User Agent</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in user_agents %}
+      <tr>
+        <td>{{ log.created_at }}</td>
+        <td>{{ log.ip_address }}</td>
+        <td style="font-size: 0.9rem;">{{ log.user_agent }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3">Geen logs beschikbaar</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>  
+
+  <h2 class="mt-5">Top User Agents</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>User Agent</th>
+        <th>Aantal</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for agent in top_user_agents %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td style="font-size:0.9rem;">{{ agent.user_agent }}</td>
+        <td>{{ agent.count }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3">Geen data beschikbaar</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
 </div>
 {% endblock %}
 

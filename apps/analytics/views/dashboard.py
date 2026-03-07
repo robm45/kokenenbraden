@@ -2,8 +2,9 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Sum
 
-from apps.analytics.models import ReceptViewCount, DailyVisit
+from apps.analytics.models import ReceptViewCount, DailyVisit, UserAgentLog
 from apps.recepten.models import Recept
+from django.db.models import Sum, Count
 
 
 class AnalyticsDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
@@ -25,6 +26,21 @@ class AnalyticsDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateVi
             ReceptViewCount.objects
             .select_related("recept")
             .order_by("-count")[:10]
+        )
+
+
+        # recente user agents
+        context["user_agents"] = (
+            UserAgentLog.objects
+            .order_by("-created_at")[:20]
+        )
+
+        # top user agents
+        context["top_user_agents"] = (
+            UserAgentLog.objects
+             .values("user_agent")
+             .annotate(count=Count("id"))
+             .order_by("-count")[:10]
         )
 
         return context

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import DailyVisit
 from .models import ReceptViewCount
+from .models import UserAgentLog
 from django.urls import path
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -45,3 +46,8 @@ class ReceptViewCountAdmin1(admin.ModelAdmin):
     list_display = ("recept", "count")
     ordering = ("-count",)
 
+
+@admin.register(UserAgentLog)
+class UserAgentLogAdmin(admin.ModelAdmin):
+    list_display = ("created_at", "ip_address", "user_agent")
+    search_fields = ("user_agent",)
