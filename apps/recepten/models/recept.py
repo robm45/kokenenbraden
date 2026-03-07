@@ -19,7 +19,8 @@ class Recept(models.Model):
     aantal_personen = models.PositiveIntegerField(default=4)
     bereiding = models.TextField(max_length=2500)
     ingredienten = models.TextField(max_length=1000, blank=True, null=True)
-    hoofd_ingredienten = models.ManyToManyField(HoofdIngredienten)
+    # hoofd_ingredient deprecated: will be removed after ingredient refactor
+    hoofd_ingredienten = models.ManyToManyField(HoofdIngredienten,blank=True)
     categorie = models.ForeignKey(Categorie, on_delete=models.RESTRICT, null=True)
     gerecht_type = models.ForeignKey(GerechtType, on_delete=models.RESTRICT, null=True)
     per_portie = models.TextField(max_length=1000)
