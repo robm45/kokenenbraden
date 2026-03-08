@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Sum
+from user_agents import parse
 
 from apps.analytics.models import ReceptViewCount, DailyVisit, UserAgentLog
 from apps.recepten.models import Recept
@@ -29,10 +30,15 @@ class AnalyticsDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateVi
         )
 
 
+
         # recente user agents
+        user_agents = UserAgentLog.objects.order_by("-created_at")[:100]
+
+        context["user_agents"] = user_agents
+
         context["user_agents"] = (
             UserAgentLog.objects
-            .order_by("-created_at")[:20]
+            .order_by("-created_at")[:10]
         )
 
         # top user agents
@@ -42,6 +48,21 @@ class AnalyticsDashboardView(LoginRequiredMixin, UserPassesTestMixin, TemplateVi
              .annotate(count=Count("id"))
              .order_by("-count")[:10]
         )
+
+        # bots vs browsers
+        bots = 0
+        browsers = 0
+
+        for log in user_agents:
+            ua = parse(log.user_agent)
+            if ua.is_bot:
+                bots += 1
+            else:
+                browsers += 1
+
+        context["bot_count"] = bots
+        context["browser_count"] = browsers
+
 
         return context
 

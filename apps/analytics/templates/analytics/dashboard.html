@@ -87,6 +87,28 @@
       {% endfor %}
     </tbody>
   </table>
+  
+  <div class="row mb-4">
+
+  <div class="col-md-6">
+    <div class="card text-bg-light">
+      <div class="card-body">
+        <h5 class="card-title">Echte browsers</h5>
+        <p class="display-6">👤 {{ browser_count }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card text-bg-light">
+      <div class="card-body">
+        <h5 class="card-title">Bots</h5>
+        <p class="display-6">🤖 {{ bot_count }}</p>
+      </div>
+    </div>
+  </div>
+
+  </div>
 
 </div>
 {% endblock %}
