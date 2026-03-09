@@ -18,7 +18,7 @@
             
             <div class="mb-3">
               <label for="id_q" class="form-label">Algemene zoekterm</label>
-              <input type="text" name="q" id="id_q" value="{{ form.q.value }}" class="form-control" placeholder="Ingredienten of bereiding">
+              <input type="text" name="q" id="id_q" value="{{ form.q.value }}" class="form-control" placeholder="bijv. kip rijst paprika">
             </div>
 
             <div class="mb-3">
@@ -69,7 +69,15 @@
       <div class="right-col main-content">
 
         {% if resultaten %}
-          <h4>Gevonden recepten</h4>
+
+          {% with resultaten|length as aantal %}
+            <h4>
+              {{ aantal }} recept{{ aantal|pluralize:"en" }} gevonden
+              {% if form.q.value %}voor "{{ form.q.value }}"{% endif %}
+            </h4>
+          {% endwith %}
+
+
           <ul class="list-group mt-3 recept-lijst">
             {% for recept in resultaten %}
               <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -83,6 +91,33 @@
             <div class="alert alert-warning mt-3">
               Geen resultaten gevonden.
             </div>
+            {% else %}
+
+                <div class="alert alert-info mt-3">
+                  <h5>Zoeken naar recepten</h5>
+
+                    <p>
+                    Gebruik één of meerdere steekwoorden om recepten te vinden.
+                    Je kunt zoeken op ingrediënten, receptnaam of woorden uit de bereiding.
+                  </p>
+
+                  <p><strong>Voorbeelden:</strong></p>
+                  <ul>
+                    <li>kip</li>
+                    <li>kip rijst paprika</li>
+                    <li>pasta tomaat knoflook</li>
+                  </ul>
+
+                  <p>
+                    Je kunt de zoekopdracht verfijnen door ook een
+                    <strong>categorie</strong>, <strong>gerechtsoort</strong> of
+                    <strong>bereidingstijd</strong> te kiezen.
+                  </p>
+
+                 <p><strong>Voorbeeld:</strong><br>
+                  kip rijst + bereidingstijd &lt; 30 minuten</p>
+
+                </div>
           {% endif %}
         {% endif %}
 
