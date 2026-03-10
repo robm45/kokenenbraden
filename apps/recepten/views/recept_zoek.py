@@ -2,6 +2,7 @@ from django.db.models import Q, Case, When, IntegerField
 from ..forms import ReceptZoekForm
 from ..models import Recept
 from django.shortcuts import render
+import re
 
 def recept_zoek(request):
     query = request.GET.get('q', '')  # algemene zoekterm
@@ -11,6 +12,7 @@ def recept_zoek(request):
 
     #resultaten = []  # standaard leeg
     resultaten = Recept.objects.none() # standaard leeg
+    actieve_filters = {}
 
     if query or categorie or gerecht_type or bereiding_filter:
         qs = Recept.objects.all()
@@ -22,11 +24,12 @@ def recept_zoek(request):
             score = 0
 
             for woord in woorden:
+               pattern = rf'\b{re.escape(woord)}\b'
                zoekquery &= ( 
-                   Q(ingredienten__icontains=woord) | 
-                   Q(bereiding__icontains=woord) |
-                   Q(naam__icontains=woord) |
-                   Q(categorie__naam__icontains=woord)
+                   Q(ingredienten__iregex=pattern) | 
+                   Q(bereiding__iregex=pattern) |
+                   Q(naam__icontains=woord) 
+#                   Q(categorie__naam__icontains=woord)
                )
                
             qs = qs.filter(zoekquery)
@@ -37,7 +40,7 @@ def recept_zoek(request):
                     When(naam__icontains=query, then=4),
                     When(ingredienten__icontains=query, then=3),
                     When(bereiding__icontains=query, then=2),
-                    When(categorie__naam__icontains=query, then=1),
+#                    When(categorie__naam__icontains=query, then=1),
                     default=0,
                     output_files=IntegerField()
                 )
@@ -62,9 +65,30 @@ def recept_zoek(request):
 
         resultaten = qs.distinct().order_by("naam")
 
+
+        if query:
+            actieve_filters["zoekterm"] = query
+
+        if categorie:
+            actieve_filters["categorie"] = Recept._meta.get_field("categorie").related_model.objects.get(id=categorie).naam
+
+        if gerecht_type:
+            actieve_filters["gerecht_type"] = Recept._meta.get_field("gerecht_type").related_model.objects.get(id=gerecht_type).gerecht_type
+
+        if bereiding_filter == "lt30":
+            actieve_filters["bereiding"] = "< 30 min"
+
+        elif bereiding_filter == "30to60":
+            actieve_filters["bereiding"] = "30–60 min"
+
+        elif bereiding_filter == "gt60":
+            actieve_filters["bereiding"] = "> 60 min"
+
     context = {
         'form': ReceptZoekForm(request.GET or None),
-        'resultaten': resultaten
+        'resultaten': resultaten,
+        'actieve_filters': actieve_filters
     }
+
     return render(request, 'recepten/recept_zoek.html', context)
 
