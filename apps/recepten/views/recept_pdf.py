@@ -96,11 +96,18 @@ def export_recept_pdf(request, pk):
             'foto_pad': foto_pad
         }
     )
+# 👉 schrijf HTML weg naar bestand
+    with open("/tmp/debug.html", "w", encoding="utf-8") as f:
+        f.write(html_string)
+    
+    pdf_css = os.path.join(settings.BASE_DIR, 'static', 'css', 'pdf.css')
+    editor_css = os.path.join(settings.BASE_DIR, 'static', 'css', 'editor.css')
 
-    css_file = os.path.join(settings.BASE_DIR, 'static', 'css', 'pdf.css')
-    css = CSS(filename=css_file)
+    pdf_file = HTML(
+        string=html_string, 
+        base_url=request.build_absolute_uri()
+        ).write_pdf(stylesheets=[editor_css, pdf_css])
 
-    pdf_file = HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(stylesheets=[css])
 
     response = HttpResponse(pdf_file, content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{recept.naam}.pdf"'

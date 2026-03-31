@@ -7,6 +7,7 @@ from .ingredient import HoofdIngredienten
 from .gerechttype import GerechtType
 from django.utils import timezone
 from datetime import timedelta
+from django_ckeditor_5.fields import CKEditor5Field
 
 from apps.recepten.utils import recept_image_path
 
@@ -17,7 +18,8 @@ class Recept(models.Model):
     samenvatting = models.TextField(max_length=1000, blank=True, null=True)
     bereidingstijd = models.IntegerField(default=30)
     aantal_personen = models.PositiveIntegerField(default=4)
-    bereiding = models.TextField(max_length=2500)
+    bereiding = models.TextField()
+    #bereiding = CKEditor5Field('Bereiding', config_name='default', max_length=2500)
     ingredienten = models.TextField(max_length=1000, blank=True, null=True)
     # hoofd_ingredient deprecated: will be removed after ingredient refactor
     hoofd_ingredienten = models.ManyToManyField(HoofdIngredienten,blank=True)

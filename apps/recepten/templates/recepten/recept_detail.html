@@ -83,9 +83,9 @@
     <!-- Bereiding -->
     <div class="card recept-card bereiding-card">
       <div class="card-header">Bereiding</div>
-      <div class="card-body">
+      <div class="card-body recept-tekst ck-content">
         {% if recept.bereiding %}
-          {{ recept.bereiding|linebreaks }}
+          {{ recept.bereiding|safe|linebreaks }}
         {% else %}
           -
         {% endif %}

@@ -1,0 +1,31 @@
+.ck-content ul,
+.ck-content ol {
+    padding-left: 1.2rem;
+    margin: 0;
+    list-style-position: outside;
+}
+
+.ck-content li {
+    margin: 0;
+}
+
+.ck-content li p {
+    margin: 0;
+}
+
+.ck-content p {
+    margin: 0;
+}
+
+.ck-content p + p {
+    margin-top: 0.2rem;
+}
+
+.ck-content ul + p,
+.ck-content ol + p {
+    margin-top: 0.2rem;
+}
+
+.ck-content p:empty {
+    display: none;
+}

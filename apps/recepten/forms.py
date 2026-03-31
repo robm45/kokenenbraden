@@ -2,6 +2,7 @@ from django import forms
 from django.forms import inlineformset_factory
 from .models import Categorie, GerechtType, HoofdIngredienten
 from .models import Recept, Ingredient
+from django_ckeditor_5.widgets import CKEditor5Widget
 
 class CategorieForm(forms.ModelForm):
     class Meta:
@@ -22,6 +23,11 @@ class IngredientForm(forms.ModelForm):
 
 
 class ReceptForm(forms.ModelForm):
+
+    bereiding = forms.CharField(
+        widget=CKEditor5Widget(config_name='default')
+    )
+    
     class Meta:
         model = Recept
         exclude = ["ingredienten"]
@@ -31,7 +37,7 @@ class ReceptForm(forms.ModelForm):
             "samenvatting": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
             "bereidingstijd": forms.NumberInput(attrs={"class": "form-control"}),
             "aantal_personen": forms.TextInput(attrs={"class": "form-control"}),
-            "bereiding": forms.Textarea(attrs={"class": "form-control", "rows": 5}),
+ #           "bereiding": forms.Textarea(attrs={"class": "form-control", "rows": 5}),
             "per_portie": forms.Textarea(attrs={"class": "form-control", "rows": 2}),
             "hoofd_ingredienten": forms.SelectMultiple(attrs={"class": "form-select"}),
             "categorie": forms.Select(attrs={"class": "form-select"}),

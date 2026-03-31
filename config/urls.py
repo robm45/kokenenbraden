@@ -27,5 +27,7 @@ urlpatterns = [
     path('',include('apps.recepten.urls')),
     path('users/', include('apps.users.urls')),
     path('analytics/', include('apps.analytics.urls')),
+    # ckeditors5 urls
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

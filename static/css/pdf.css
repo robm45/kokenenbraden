@@ -89,6 +89,7 @@ body.pdf-versie .ingredienten-lijst li {
 
 body.pdf-versie .bereiding-card {
   flex: 1;
+  padding-left: 0;
 }
 
 body.pdf-versie .card-header {
@@ -105,4 +106,19 @@ body.pdf-versie .card-header {
 body.pdf-versie p {
   margin: 0 0 4px 0;
 }
+body.pdf-versie .ck-content ol li > p,
+body.pdf-versie .ck-content ul li > p {
+    display: inline !important;
+    margin: 0 !important;
+}
+
+body.pdf-versie .ck-content {
+    padding-left: 0.5rem;  /* of 1rem, naar smaak */
+}
+
+body.pdf-versie .ck-content p {
+    margin: 0 0 0.2rem 0;   /* behoud kleine afstand tussen paragrafen */
+}
+
+
 

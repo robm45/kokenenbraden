@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 from importlib import import_module
+from config.ckeditor_config import CKEDITOR_5_CONFIGS
 import os, json
 
 
@@ -86,6 +87,7 @@ INSTALLED_APPS = [
     'apps.analytics.apps.AnalyticsConfig',
     'apps.tools.apps.ToolsConfig',
     "django_bootstrap5",
+    "django_ckeditor_5",
 ]
 
 

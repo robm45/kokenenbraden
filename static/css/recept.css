@@ -161,3 +161,14 @@
   --bs-btn-hover-border-color: #2f7d4f;
 }
 
+/* ckeditor 5 aanpassingen */
+.recept-tekst ol li p,
+.recept-tekst ul li p {
+   margin: 0;
+   padding-left: 0;
+   list-style-position: inside;
+}          
+
+.recept-tekst p {
+   margin: 0.2rem;
+}
