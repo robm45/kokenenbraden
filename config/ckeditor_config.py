@@ -19,5 +19,12 @@ CKEDITOR_5_CONFIGS = {
                 'Courier New, Courier, monospace'
             ]
         },
+        'list': {
+            'properties': {
+                'styles': True,
+                'startIndex': True,
+                'reversed': True,
+            }
+        },
     }
 }

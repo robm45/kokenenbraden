@@ -29,3 +29,12 @@
 .ck-content p:empty {
     display: none;
 }
+.ck-content ol ol {
+    list-style-type: lower-alpha !important;
+}
+.ck-content ol {
+    list-style-type: decimal !important;
+}
+.ck-content ol ol ol {
+    list-style-type: lower-roman !important;
+}
